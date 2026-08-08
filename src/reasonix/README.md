@@ -42,12 +42,16 @@ Add these `runArgs` to your `devcontainer.json` file to support Wayland and X11:
 
 ```jsonc
 {
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY}",
+    "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+    "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
+    "XAUTHORITY": "${localEnv:XAUTHORITY}"
+  },
   "runArgs": [
     "--volume=/tmp/.X11-unix:/tmp/.X11-unix",
-    "--env=DISPLAY=${env:DISPLAY}",
-    "--volume=${env:XDG_RUNTIME_DIR}/${env:WAYLAND_DISPLAY}:${env:XDG_RUNTIME_DIR}/${env:WAYLAND_DISPLAY}",
-    "--env=WAYLAND_DISPLAY=${env:WAYLAND_DISPLAY}",
-    "--env=XDG_RUNTIME_DIR=${env:XDG_RUNTIME_DIR}",
+    "--volume=${localEnv:XDG_RUNTIME_DIR}/${localEnv:WAYLAND_DISPLAY}:${localEnv:XDG_RUNTIME_DIR}/${localEnv:WAYLAND_DISPLAY}",
+    "--volume=${localEnv:XAUTHORITY}:${localEnv:XAUTHORITY}",
     "--device=/dev/dri:/dev/dri"
   ]
 }

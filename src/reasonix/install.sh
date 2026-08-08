@@ -14,7 +14,7 @@ install_packages() {
         apt-get update -y
         local pkgs="ca-certificates curl tar"
         if [ "${INSTALL_DESKTOP}" = "true" ]; then
-            pkgs="${pkgs} libwebkit2gtk-4.1-0 libgtk-3-0 libgdk-pixbuf-2.0-0 libsoup-3.0-0 libglib2.0-0 libjavascriptcoregtk-4.1-0"
+            pkgs="${pkgs} libwebkit2gtk-4.1-0 libgtk-3-0 libgdk-pixbuf-2.0-0 libsoup-3.0-0 libglib2.0-0 libjavascriptcoregtk-4.1-0 libwayland-client0 libwayland-egl1"
         fi
         # shellcheck disable=SC2086
         apt-get install -y --no-install-recommends ${pkgs}
@@ -22,7 +22,7 @@ install_packages() {
     elif command -v apk >/dev/null 2>&1; then
         local pkgs="ca-certificates curl tar"
         if [ "${INSTALL_DESKTOP}" = "true" ]; then
-            pkgs="${pkgs} webkit2gtk-4.1 gtk+3.0 gdk-pixbuf libsoup3 glib"
+            pkgs="${pkgs} webkit2gtk-4.1 gtk+3.0 gdk-pixbuf libsoup3 glib wayland-libs-client wayland-libs-egl"
         fi
         # shellcheck disable=SC2086
         apk add --no-cache ${pkgs}
