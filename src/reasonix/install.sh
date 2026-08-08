@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REASONIXVERSION="${REASONIXVERSION:-latest}"
+
+log() {
+    printf '[reasonix] %s\n' "$*" >&2
+}
+
+install_packages() {
+    if command -v apt-get >/dev/null 2>&1; then
+        export DEBIAN_FRONTEND=noninteractive
+        apt-get update -y
+        apt-get install -y --no-install-recommends ca-certificates curl tar
+        rm -rf /var/lib/apt/lists/*
+    elif command -v apk >/dev/null 2>&1; then
+        apk add --no-cache ca-certificates curl tar
+    else
+        log "Unsupported distribution. apt-get or apk is required."
+        exit 1
+    fi
+}
+
+detect_target_platform() {
+    local os_name arch_name
+
+    if [ -n "${TARGETPLATFORM:-}" ]; then
+        printf '%s' "$TARGETPLATFORM"
+        return
+    fi
+
+    os_name="$(uname -s | tr '[:upper:]' '[:lower:]')"
+    if command -v dpkg >/dev/null 2>&1; then
+        arch_name="$(dpkg --print-architecture)"
+    else
+        arch_name="$(uname -m)"
+    fi
+
+    case "$arch_name" in
+        amd64|x86_64)
+            arch_name="amd64"
+            ;;
+        arm64|aarch64)
+            arch_name="arm64"
+            ;;
+        *)
+            log "Unsupported architecture: $arch_name"
+            exit 1
+            ;;
+    esac
+
+    printf '%s/%s' "$os_name" "$arch_name"
+}
+
+reasonix_asset_suffix() {
+    case "$TARGETPLATFORM" in
+        linux/amd64)
+            printf 'linux-amd64'
+            ;;
+        linux/arm64)
+            printf 'linux-arm64'
+            ;;
+        *)
+            log "Unsupported platform: $TARGETPLATFORM"
+            exit 1
+            ;;
+    esac
+}
+
+install_reasonix() {
+    local asset_suffix reasonix_tarball release_url tmp_dir
+
+    if [ "${REASONIXVERSION}" = "latest" ]; then
+        REASONIXVERSION="1.21.3"
+        log "Changed 'latest' to version ${REASONIXVERSION}."
+    fi
+
+    TARGETPLATFORM="$(detect_target_platform)"
+    asset_suffix="$(reasonix_asset_suffix)"
+    reasonix_tarball="Reasonix-${asset_suffix}.tar.gz"
+    release_url="https://dl.reasonix.io/desktop-v${REASONIXVERSION}"
+    
+    tmp_dir="$(mktemp -d)"
+    trap 'rm -rf "$tmp_dir"' EXIT
+
+    log "Downloading ${reasonix_tarball}"
+    curl --fail --show-error --location "${release_url}/${reasonix_tarball}" -o "${tmp_dir}/${reasonix_tarball}"
+
+    log "Installing Reasonix"
+    tar --no-same-owner -C "$tmp_dir" -xzf "${tmp_dir}/${reasonix_tarball}"
+    
+    install -m 0755 "${tmp_dir}/reasonix" /usr/local/bin/reasonix
+    install -m 0755 "${tmp_dir}/reasonix-desktop" /usr/local/bin/reasonix-desktop
+    install -m 0755 "${tmp_dir}/reasonix-launcher" /usr/local/bin/reasonix-launcher
+
+    rm -rf "$tmp_dir"
+    trap - EXIT
+}
+
+install_packages
+install_reasonix
+
+if ! command -v reasonix >/dev/null 2>&1; then
+    log "The script did not install reasonix correctly."
+    exit 1
+fi
+
+echo "The reasonix feature is installed."
