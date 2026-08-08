@@ -1,0 +1,22 @@
+{
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils": {
+      "version": "2.5.9",
+      "resolved": "ghcr.io/devcontainers/features/common-utils@sha256:cb0c4d3c276f157eed17935747e364178d75fee17f55c4e129966f64633deb3a",
+      "integrity": "sha256:cb0c4d3c276f157eed17935747e364178d75fee17f55c4e129966f64633deb3a"
+    },
+    "ghcr.io/ivarec/devcontainer-features/reasonix:0": {
+      "version": "0.0.1",
+      "resolved": "ghcr.io/ivarec/devcontainer-features/reasonix@sha256:865ab461c7957a298af41f1ccb673d1baa9a2b10b2eae86becbf7ee6b14e30a3",
+      "integrity": "sha256:865ab461c7957a298af41f1ccb673d1baa9a2b10b2eae86becbf7ee6b14e30a3",
+      "dependsOn": [
+        "ghcr.io/devcontainers/features/common-utils"
+      ]
+    },
+    "ghcr.io/ivarec/devcontainer-features/ripgrep:1": {
+      "version": "1.0.0",
+      "resolved": "ghcr.io/ivarec/devcontainer-features/ripgrep@sha256:1bfaa37aeab62d4750ea23ebc183bf2914856b0143314645b7ac0be04754d74d",
+      "integrity": "sha256:1bfaa37aeab62d4750ea23ebc183bf2914856b0143314645b7ac0be04754d74d"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+        "ghcr.io/ivarec/devcontainer-features/ripgrep:1": {},
+        "ghcr.io/ivarec/devcontainer-features/reasonix:0": {}
+    }
+}
