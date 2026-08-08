@@ -14,7 +14,7 @@ install_packages() {
         apt-get update -y
         local pkgs="ca-certificates curl tar"
         if [ "${INSTALL_DESKTOP}" = "true" ]; then
-            pkgs="${pkgs} libwebkit2gtk-4.1-0 libgtk-3-0 libgdk-pixbuf-2.0-0 libsoup-3.0-0 libglib2.0-0 libjavascriptcoregtk-4.1-0 libwayland-client0 libwayland-egl1 libgl1-mesa-dri libegl1-mesa"
+            pkgs="${pkgs} libwebkit2gtk-4.1-0 libgtk-3-0 libgdk-pixbuf-2.0-0 libsoup-3.0-0 libglib2.0-0 libjavascriptcoregtk-4.1-0 libwayland-client0 libwayland-egl1 libgl1-mesa-dri libegl-mesa0"
         fi
         # shellcheck disable=SC2086
         apt-get install -y --no-install-recommends ${pkgs}
