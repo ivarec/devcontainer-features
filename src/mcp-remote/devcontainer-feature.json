@@ -1,0 +1,32 @@
+{
+    "id": "mcp-remote",
+    "version": "0.0.1",
+    "name": "mcp-remote",
+    "description": "Installs mcp-remote via npm (post-install scripts disabled).",
+    "keywords": [
+        "mcp",
+        "remote",
+        "cli",
+        "node"
+    ],
+    "dependsOn": {
+        "ghcr.io/devcontainers/features/common-utils": {},
+        "ghcr.io/devcontainers/features/node:2": {
+            "version": "lts"
+        }
+    },
+    "options": {
+        "version": {
+            "type": "string",
+            "default": "0.1.38",
+            "proposals": [
+                "0.1.38",
+                "latest"
+            ],
+            "description": "The mcp-remote version to install. Use 'latest' for the newest npm release."
+        }
+    },
+    "containerEnv": {
+        "DO_NOT_TRACK": "1"
+    }
+}
