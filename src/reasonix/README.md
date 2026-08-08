@@ -12,7 +12,7 @@ Add the feature to your `.devcontainer/devcontainer.json` file.
 {
   "features": {
     "ghcr.io/ivarec/devcontainer-features/reasonix:1": {
-      "reasonixVersion": "latest"
+      "version": "latest"
     }
   }
 }
@@ -47,4 +47,4 @@ Your host computer must set the `DISPLAY`, `WAYLAND_DISPLAY`, and `XDG_RUNTIME_D
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `reasonixVersion` | `latest` | The Reasonix version to install. Use `latest` to install the most recent release. |
+| `version` | `latest` | The Reasonix version to install. Use `latest` to install the most recent release. |

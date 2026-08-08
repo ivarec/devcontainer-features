@@ -1,17 +1,14 @@
 {
     "id": "reasonix",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "name": "reasonix",
     "description": "Installs the Reasonix coding agent toolset.",
     "keywords": [
         "ai",
         "cli"
     ],
-    "dependsOn": {
-        "ghcr.io/devcontainers/features/common-utils": {}
-    },
     "options": {
-        "reasonixVersion": {
+        "version": {
             "type": "string",
             "default": "latest",
             "proposals": [

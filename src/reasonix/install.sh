@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REASONIXVERSION="${REASONIXVERSION:-latest}"
+REASONIX_VERSION="${VERSION:-latest}"
 
 log() {
     printf '[reasonix] %s\n' "$*" >&2
@@ -70,15 +70,15 @@ reasonix_asset_suffix() {
 install_reasonix() {
     local asset_suffix reasonix_tarball release_url tmp_dir
 
-    if [ "${REASONIXVERSION}" = "latest" ]; then
-        REASONIXVERSION="1.21.3"
-        log "Changed 'latest' to version ${REASONIXVERSION}."
+    if [ "${REASONIX_VERSION}" = "latest" ]; then
+        REASONIX_VERSION="1.21.3"
+        log "Changed 'latest' to version ${REASONIX_VERSION}."
     fi
 
     TARGETPLATFORM="$(detect_target_platform)"
     asset_suffix="$(reasonix_asset_suffix)"
     reasonix_tarball="Reasonix-${asset_suffix}.tar.gz"
-    release_url="https://dl.reasonix.io/desktop-v${REASONIXVERSION}"
+    release_url="https://dl.reasonix.io/desktop-v${REASONIX_VERSION}"
     
     tmp_dir="$(mktemp -d)"
     trap 'rm -rf "$tmp_dir"' EXIT
