@@ -21,6 +21,19 @@ Add the feature to your `.devcontainer/devcontainer.json` file.
 
 Change `latest` to a specific version number. For example, use `1.21.3` to install a specific release.
 
+To install only the CLI tools without the graphical `reasonix-desktop` client and its system dependencies:
+
+```jsonc
+{
+  "features": {
+    "ghcr.io/ivarec/devcontainer-features/reasonix:1": {
+      "version": "latest",
+      "desktop": false
+    }
+  }
+}
+```
+
 ## Graphical Interface Configuration (Wayland and X11)
 
 The `reasonix-desktop` tool is a graphical application. A devcontainer cannot show graphical applications by default. You must configure the container to access the display server of your host computer.
@@ -45,6 +58,7 @@ Your host computer must set the `DISPLAY`, `WAYLAND_DISPLAY`, and `XDG_RUNTIME_D
 
 ## Options
 
-| Option | Default | Description |
-| --- | --- | --- |
-| `version` | `latest` | The Reasonix version to install. Use `latest` to install the most recent release. |
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `version` | `string` | `latest` | The Reasonix version to install. Use `latest` to install the most recent release. |
+| `desktop` | `boolean` | `true` | Install the `reasonix-desktop` graphical client and its system dependencies (libwebkit2gtk, libgtk-3, libsoup-3.0, etc.). Set to `false` for headless/CLI-only environments where the graphical client is not needed. |

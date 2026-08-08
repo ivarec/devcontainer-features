@@ -2,6 +2,7 @@
 set -euo pipefail
 
 REASONIX_VERSION="${VERSION:-latest}"
+INSTALL_DESKTOP="${DESKTOP:-true}"
 
 log() {
     printf '[reasonix] %s\n' "$*" >&2
@@ -11,10 +12,20 @@ install_packages() {
     if command -v apt-get >/dev/null 2>&1; then
         export DEBIAN_FRONTEND=noninteractive
         apt-get update -y
-        apt-get install -y --no-install-recommends ca-certificates curl tar
+        local pkgs="ca-certificates curl tar"
+        if [ "${INSTALL_DESKTOP}" = "true" ]; then
+            pkgs="${pkgs} libwebkit2gtk-4.1-0 libgtk-3-0 libgdk-pixbuf-2.0-0 libsoup-3.0-0 libglib2.0-0 libjavascriptcoregtk-4.1-0"
+        fi
+        # shellcheck disable=SC2086
+        apt-get install -y --no-install-recommends ${pkgs}
         rm -rf /var/lib/apt/lists/*
     elif command -v apk >/dev/null 2>&1; then
-        apk add --no-cache ca-certificates curl tar
+        local pkgs="ca-certificates curl tar"
+        if [ "${INSTALL_DESKTOP}" = "true" ]; then
+            pkgs="${pkgs} webkit2gtk-4.1 gtk+3.0 gdk-pixbuf libsoup3 glib"
+        fi
+        # shellcheck disable=SC2086
+        apk add --no-cache ${pkgs}
     else
         log "Unsupported distribution. apt-get or apk is required."
         exit 1
@@ -90,8 +101,13 @@ install_reasonix() {
     tar --no-same-owner -C "$tmp_dir" -xzf "${tmp_dir}/${reasonix_tarball}"
     
     install -m 0755 "${tmp_dir}/reasonix" /usr/local/bin/reasonix
-    install -m 0755 "${tmp_dir}/reasonix-desktop" /usr/local/bin/reasonix-desktop
-    install -m 0755 "${tmp_dir}/reasonix-launcher" /usr/local/bin/reasonix-launcher
+    if [ "${INSTALL_DESKTOP}" = "true" ]; then
+        install -m 0755 "${tmp_dir}/reasonix-desktop" /usr/local/bin/reasonix-desktop
+        install -m 0755 "${tmp_dir}/reasonix-launcher" /usr/local/bin/reasonix-launcher
+        log "Installed reasonix, reasonix-desktop, and reasonix-launcher"
+    else
+        log "Skipped reasonix-desktop and reasonix-launcher (desktop=false)"
+    fi
 
     rm -rf "$tmp_dir"
     trap - EXIT

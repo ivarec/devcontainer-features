@@ -1,6 +1,6 @@
 {
     "id": "reasonix",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "name": "reasonix",
     "description": "Installs the Reasonix coding agent toolset.",
     "keywords": [
@@ -16,6 +16,11 @@
                 "1.21.3"
             ],
             "description": "reasonix version to install. Use 'latest' to install the latest GitHub release."
+        },
+        "desktop": {
+            "type": "boolean",
+            "default": true,
+            "description": "Install the reasonix-desktop graphical client and its system dependencies (libwebkit2gtk, libgtk-3, libsoup-3.0, etc.). Set to false for headless/CLI-only environments."
         }
     },
     "containerEnv": {
