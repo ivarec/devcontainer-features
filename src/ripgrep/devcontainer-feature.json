@@ -1,0 +1,17 @@
+{
+    "id": "ripgrep",
+    "version": "1.0.0",
+    "name": "ripgrep",
+    "description": "Installs the ripgrep search tool.",
+    "keywords": [
+        "search",
+        "cli"
+    ],
+    "options": {
+        "version": {
+            "type": "string",
+            "default": "latest",
+            "description": "The ripgrep version to install. Use 'latest' to install the newest GitHub release."
+        }
+    }
+}
