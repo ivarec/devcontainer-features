@@ -12,7 +12,7 @@ install_packages() {
     if command -v apt-get >/dev/null 2>&1; then
         export DEBIAN_FRONTEND=noninteractive
         apt-get update -y
-        local pkgs="ca-certificates curl tar"
+        local pkgs="ca-certificates curl tar bubblewrap"
         if [ "${INSTALL_DESKTOP}" = "true" ]; then
             pkgs="${pkgs} libwebkit2gtk-4.1-0 libgtk-3-0 libgdk-pixbuf-2.0-0 libsoup-3.0-0 libglib2.0-0 libjavascriptcoregtk-4.1-0 libwayland-client0 libwayland-egl1 libgl1-mesa-dri libegl-mesa0"
         fi
